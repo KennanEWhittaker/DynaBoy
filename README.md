@@ -10,11 +10,11 @@ Install gems
 
 	bundle install
 
-Use `rake` to compile `src` to `bin` directory.  Annotated source is generated automatically.  DynaBoy core files are concatenated.  HAML & SCSS is compiled.
+Use `rake` to compile DynaBoy's source, `src/*.js`, to the `bin/js` directory.  Annotated source is generated automatically.
 	
 	rake
 
-Launch simple web server
+Launch simple web server to view `bin/index.html`
 
 	rake view
 
