@@ -1,10 +1,14 @@
 (function(dynaboy){
 
+	//Load the hidden file dialog
 	dynaboy.load = function() {
 		var $input = $("#fileInput");
+		//Reset value to nil, in case ROM is reloaded
 		$input.val('');
 		$input.click();
 	};
+
+	//Load file and read as `ArrayBuffer`
 	dynaboy.loadFile = function(){
 		var input = document.getElementById("fileInput");
 		if (input && input.files.length > 0) {
@@ -24,6 +28,7 @@
 		}
 	};
 
+	//Load ArrayBuffer as ROM
 	function loadRom(arrayBuffer) {
 		console.log("loaded!");
 	}

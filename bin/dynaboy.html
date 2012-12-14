@@ -16,6 +16,153 @@
     </tr>
   </thead>
   <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">dynaboy</span><span class="p">){</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-2'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>Load the hidden file dialog</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">dynaboy</span><span class="p">.</span><span class="nx">load</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">$input</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#fileInput&quot;</span><span class="p">);</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-3'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <p>reset value to nil, in case ROM is reloaded</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">$input</span><span class="p">.</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+    <span class="nx">$input</span><span class="p">.</span><span class="nx">click</span><span class="p">();</span>
+  <span class="p">};</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-4'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <p>Load file and read as <code>ArrayBuffer</code></p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">dynaboy</span><span class="p">.</span><span class="nx">loadFile</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;fileInput&quot;</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">input</span> <span class="o">&amp;&amp;</span> <span class="nx">input</span><span class="p">.</span><span class="nx">files</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">input</span><span class="p">.</span><span class="nx">files</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">file</span><span class="p">.</span><span class="nx">fileName</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">size</span> <span class="o">=</span> <span class="nx">file</span><span class="p">.</span><span class="nx">fileSize</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">read</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileReader</span><span class="p">();</span>
+
+      <span class="nx">read</span><span class="p">.</span><span class="nx">onerror</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">dynaboy</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="s1">&#39;Error loading file: &#39;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">);</span>
+      <span class="p">};</span>
+      <span class="nx">read</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">loadRom</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">result</span><span class="p">);</span>
+        
+      <span class="p">}</span>
+      <span class="nx">read</span><span class="p">.</span><span class="nx">readAsArrayBuffer</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-5'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <p>Load ArrayBuffer as ROM</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">loadRom</span><span class="p">(</span><span class="nx">arrayBuffer</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;loaded!&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+<span class="p">}(</span><span class="nb">window</span><span class="p">.</span><span class="nx">dynaboy</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">dynaboy</span> <span class="o">||</span> <span class="p">{}));</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-Z80_Game_Boy_CPU'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-Z80_Game_Boy_CPU">&#182;</a>
+        </div>
+        <h1>Z80 Game Boy CPU</h1>
+
+<p>The Z80 is an 8-bit chip, so all workings operate on one byte at a time.
+The memory interface is a 16-bit address bus.
+Programs are accessed through the same address bus as normal memory.
+An instruction can be anywhere from one to three bytes;</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">dynaboy</span><span class="p">){</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-7'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-7">&#182;</a>
+        </div>
+        <p>CPU Generator function</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">CPU</span><span class="p">()</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-8'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-8">&#182;</a>
+        </div>
+        <p>The Gameboy has two types of clocks: m &amp; t</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">clock</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">m</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nx">t</span><span class="o">:</span> <span class="mi">0</span>
+    <span class="p">};</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-9'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-9">&#182;</a>
+        </div>
+        <p>The Program Counter is initialized to 0</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">pc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-10'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-10">&#182;</a>
+        </div>
+        <p>Expose the CPU</p>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kd">var</span> <span class="nx">cpu</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CPU</span><span class="p">();</span>
+  <span class="nx">dynaboy</span><span class="p">.</span><span class="nx">cpu</span> <span class="o">=</span> <span class="nx">cpu</span><span class="p">;</span>
+
+<span class="p">}(</span><span class="nb">window</span><span class="p">.</span><span class="nx">dynaboy</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">dynaboy</span> <span class="o">||</span> <span class="p">{}));</span></pre></div>
+      </td>
+    </tr>
   </table>
 </div>
 </body>
