@@ -42,11 +42,23 @@
         </div>
       </div>
       <div class='row'>
+        <div class='span12'>
+            <div class='btn-toolbar'>
+              <div class='btn-group'>
+                <input style='display:none;' id='fileInput' name='fileInput' type='file' onchange='dynaboy.loadFile()'>Load</button>
+                <button class='btn' onclick='dynaboy.load()'>Load</button>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class='row'>
         <div class='span2'>
           <canvas height='144' style='background: black;' width='160'></canvas>
         </div>
       </div>
     </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.3.min.js"><\/script>')</script>
     <script src='/js/main.js'></script>
     <script src='/js/dynaboy.js'></script>
   </body>
